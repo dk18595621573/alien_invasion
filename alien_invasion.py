@@ -16,11 +16,12 @@ class AlienInvasion:
                         self.settings.screen_height))
         # 设置标题
         pygame.display.set_caption("外星人入侵")
-        # 初始化飞船
-        self.ship = ship.Ship(self)
 
     def run_game(self):
         """开始游戏主循环"""
+
+        # 初始化飞船
+        self.ship = ship.Ship(self)
         while True:
             # 鼠标事件和键盘事件
             self._check_events()
