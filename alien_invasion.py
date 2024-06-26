@@ -21,9 +21,14 @@ class AlienInvasion:
         # 设置标题
         pygame.display.set_caption("外星人入侵")
 
+        # 初始化字体模块
+        pygame.font.init()
+        # 创建一个字体对象
+        self.font = pygame.font.SysFont(self.settings.font_model, self.settings.font_size)
+        self.text = ''
+
     def run_game(self):
         """开始游戏主循环"""
-
         # 初始化飞船
         self.ship = ship.Ship(self)
         while True:
@@ -47,7 +52,7 @@ class AlienInvasion:
 
     def _check_up_events(self, event):
         """抬起事件"""
-
+       
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -61,7 +66,8 @@ class AlienInvasion:
     
     def _check_down_events(self, event):
         """键盘事件"""
-        
+
+        self.text = event.key
         if event.key == pygame.K_RIGHT:
             # 按下右移动按钮
             self.ship.moving_right = True
@@ -70,11 +76,9 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_UP:
             # 按下上移动按钮
-            print("按下上移动按钮")
             self.ship.moving_up = True
         elif event.key == pygame.K_DOWN:
             # 按下下移动按钮
-            print(f"按下下移动按钮y={self.ship.rect.bottom}")
             self.ship.moveing_down = True
         elif event.key == pygame.K_q:
             sys.exit()
@@ -86,6 +90,21 @@ class AlienInvasion:
         self.screen.fill(self.settings.bg_color)
         # 让飞船显示在屏幕上
         self.ship.blitme()
+
+        # 重绘屏幕背景色
+        self.screen.fill(self.settings.bg_color)
+        # 让飞船显示在屏幕上
+        self.ship.blitme()
+
+        # 渲染文字
+        text_surface = self.font.render(f"{self.text}", True, self.settings.font_black)
+        # 获取文字表面的矩形
+        text_rect = text_surface.get_rect()
+        # 将文字表面放置在屏幕顶部
+        text_rect.top = self.screen.get_rect().top
+        # 绘制文字表面到屏幕
+        self.screen.blit(text_surface, text_rect)
+
         # 刷新屏幕可见(擦去旧屏幕 使新屏幕可见)
         pygame.display.flip()
 

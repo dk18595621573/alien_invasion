@@ -11,3 +11,7 @@ class Settings:
         self.bg_color = (230, 230, 230)
         # 飞船移动速度
         self.ship_speed = 1.5
+        # 创建一个字体对象
+        self.font_model = 'Arial'
+        self.font_size = 36
+        self.font_black = (0, 0, 0)
