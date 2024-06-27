@@ -1,15 +1,14 @@
 """字体模块"""
 
 import pygame
-from settings import Settings
 
 class Font:
     """字体类"""
     
-    def __init__(self, ai_game, font: str, size: int) -> None:
+    def __init__(self, ai_game) -> None:
         """初始化"""
 
-        self.settings = Settings()
+        self.settings = ai_game.settings
 
         # 拿取屏幕位置
         self.screen = ai_game.screen
@@ -17,7 +16,7 @@ class Font:
         # 初始化字体模块
         pygame.font.init()
         # 创建一个字体对象
-        self.sys_font = pygame.font.SysFont(font, size)
+        self.sys_font = pygame.font.SysFont(self.settings.font_model, self.settings.font_size)
 
     def blitme(self, text):
         """绘制渲染文字"""

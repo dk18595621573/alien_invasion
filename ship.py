@@ -1,13 +1,11 @@
 """飞船模块"""
 
 import pygame
-from alien_invasion import AlienInvasion
-from settings import Settings
 
 class Ship:
     """飞船类"""
 
-    def __init__(self, ai_game: AlienInvasion) -> None:
+    def __init__(self, ai_game) -> None:
         """初始化飞船并设置飞船位置"""
         
         # 拿到屏幕的位置
@@ -27,7 +25,7 @@ class Ship:
         self.moving_up = False
         self.moveing_down = False
 
-        self.settings = Settings()
+        self.settings = ai_game.settings
 
         # 存储小数值的飞船位置
         self.x = float(self.rect.x)

@@ -13,5 +13,5 @@ class Settings:
         self.ship_speed = 1.5
         # 创建一个字体对象
         self.font_model = 'Arial'
-        self.font_size = 36
+        self.font_size = 24
         self.font_black = (0, 0, 0)
