@@ -2,6 +2,7 @@ import sys
 import pygame
 import settings
 import ship
+import font
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
@@ -14,23 +15,17 @@ class AlienInvasion:
         # 设置窗口大小
         self.screen = pygame.display.set_mode((self.settings.screen_width,
                         self.settings.screen_height))
-        # 全屏运行
-        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        # self.settings.screen_width = self.screen.get_width()
-        # self.settings.screen_height = self.screen.get_height()
         # 设置标题
         pygame.display.set_caption("外星人入侵")
 
-        # 初始化字体模块
-        pygame.font.init()
-        # 创建一个字体对象
-        self.font = pygame.font.SysFont(self.settings.font_model, self.settings.font_size)
         self.text = ''
 
     def run_game(self):
         """开始游戏主循环"""
         # 初始化飞船
         self.ship = ship.Ship(self)
+        # 初始化字体
+        self.font = font.Font(self, self.settings.font_model, self.settings.font_size)
         while True:
             # 鼠标事件和键盘事件
             self._check_events()
@@ -91,19 +86,8 @@ class AlienInvasion:
         # 让飞船显示在屏幕上
         self.ship.blitme()
 
-        # 重绘屏幕背景色
-        self.screen.fill(self.settings.bg_color)
-        # 让飞船显示在屏幕上
-        self.ship.blitme()
-
-        # 渲染文字
-        text_surface = self.font.render(f"{self.text}", True, self.settings.font_black)
-        # 获取文字表面的矩形
-        text_rect = text_surface.get_rect()
-        # 将文字表面放置在屏幕顶部
-        text_rect.top = self.screen.get_rect().top
-        # 绘制文字表面到屏幕
-        self.screen.blit(text_surface, text_rect)
+        # 让文字显示在屏幕上
+        self.font.blitme(self.text)
 
         # 刷新屏幕可见(擦去旧屏幕 使新屏幕可见)
         pygame.display.flip()
