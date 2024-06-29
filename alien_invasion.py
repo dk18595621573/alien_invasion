@@ -4,6 +4,7 @@ import settings
 import ship
 import font
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
@@ -22,6 +23,9 @@ class AlienInvasion:
         self.font = font.Font(self)
         # 初始化子弹
         self.bullets = pygame.sprite.Group()
+        # 初始化外星人
+        self.aliens = pygame.sprite.Group()
+        self._create_feet()
         # 设置标题
         pygame.display.set_caption("外星人入侵")
 
@@ -102,6 +106,11 @@ class AlienInvasion:
             if bullet.y < 0:
                 self.bullets.remove(bullet)
 
+    def _create_feet(self):
+        """创建外星人"""
+
+        self.aliens.add(Alien(self))
+
     def _update_screen(self):
         """更新屏幕图像,并使新屏幕可见"""
 
@@ -113,6 +122,8 @@ class AlienInvasion:
         # 让子弹显示在屏幕上
         for bullet in self.bullets:
             bullet.draw_bullet()
+
+        self.aliens.draw(self.screen)
 
         # 让文字显示在屏幕上
         # self.font.blitme(self.text)
