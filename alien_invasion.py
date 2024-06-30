@@ -109,7 +109,33 @@ class AlienInvasion:
     def _create_feet(self):
         """创建外星人"""
 
-        self.aliens.add(Alien(self))
+        # 创建一组外星人
+        alien = Alien(self)
+        # 根据屏幕大小 间隔一个外星人绘制一个外星人
+        alien_width = alien.rect.width
+        alien_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = alien_space_x // (2 * alien_width)
+        # 获取可以创建多少行外星人
+        alien_height = alien.rect.height
+        ship_height = self.ship.rect.height
+        alien_space_y = self.settings.screen_height - (3 * alien_height) - ship_height
+        number_alien_y = alien_space_y // (2 * alien_height)
+        # 创建外星人组
+        for rows_number in range(number_alien_y):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(rows_number, alien_number)
+    
+    def _create_alien(self, rows_number, alien_number):
+        """创建一个外星人并放到当前行"""
+        alien = Alien(self)
+        # 绘制外星人
+        alien_width, alien_height = alien.rect.size
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        # 绘制行数
+        alien.rect.y = alien_height + 2 * alien_height * rows_number
+        self.aliens.add(alien)
 
     def _update_screen(self):
         """更新屏幕图像,并使新屏幕可见"""
