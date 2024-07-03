@@ -10,7 +10,7 @@ class Settings:
         # 颜色
         self.bg_color = (230, 230, 230)
         # 飞船移动速度
-        self.ship_speed = 1.5
+        self.ship_speed = 3
         # 创建一个字体对象
         self.font_model = 'Arial'
         self.font_size = 24
@@ -22,6 +22,13 @@ class Settings:
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullet_allowed = 3
+
+        # 外星人设置
+        self.alien_speed = 1
+        # 1表示向右移动 -1 表示向左移动
+        self.fleet_direction = 1
+        # 向下移动间隔
+        self.fleet_drop_speed = 1
 
         # 星星的数量
         self.star_number = 20

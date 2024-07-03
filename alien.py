@@ -1,5 +1,6 @@
 """外星人模块"""
 
+from typing import Any
 import pygame
 from pygame.sprite import Sprite
 
@@ -17,7 +18,23 @@ class Alien(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
 
+        self.settings = ai_game.settings
+
         # 存储精准位置
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
+    def update(self) -> None:
+        """外星人移动"""
+
+        self.x = (self.settings.alien_speed * self.settings.fleet_direction)
+        self.rect.x += float(self.x)
+
+    def check_edges(self):
+        """校验是否到达屏幕边缘"""
+
+        screen_rect = self.screen.get_rect()
+        if self.rect.left <= 0 or self.rect.right >= screen_rect.right:
+            return True
+        
+    

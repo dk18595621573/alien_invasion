@@ -28,6 +28,8 @@ class AlienInvasion:
         self._create_feet()
         # 设置标题
         pygame.display.set_caption("外星人入侵")
+        # 创建时钟对象
+        self.clock = pygame.time.Clock()
 
         self.text = ''
 
@@ -40,6 +42,8 @@ class AlienInvasion:
             self.ship.update()
             # 更新子弹
             self._update_bullets()
+            # 更新外星人位置
+            self._update_aliens()
             # 修改屏幕图像
             self._update_screen()
 
@@ -137,6 +141,29 @@ class AlienInvasion:
         alien.rect.y = alien_height + 2 * alien_height * rows_number
         self.aliens.add(alien)
 
+    def _update_aliens(self):
+        """更新外星人位置"""
+
+        self._check_fleet_edges()
+        self.aliens.update()
+
+    def _check_fleet_edges(self):
+        """检测到碰到墙壁做出处理"""
+
+        for alien in self.aliens:
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """控制移动方向遇到墙壁向下移动"""
+        
+        for alien in self.aliens:
+            alien.rect.y += self.settings.fleet_drop_speed
+        # 将正设置成负 将负设计成正
+        print(f"========移动方向{self.settings.fleet_direction}")
+        self.settings.fleet_direction *= -1
+
     def _update_screen(self):
         """更新屏幕图像,并使新屏幕可见"""
 
@@ -156,6 +183,9 @@ class AlienInvasion:
 
         # 刷新屏幕可见(擦去旧屏幕 使新屏幕可见)
         pygame.display.flip()
+
+        # 设定帧率
+        self.clock.tick(90)
 
 if __name__ == '__main__':
     # 创建游戏并且运行
