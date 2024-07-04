@@ -3,7 +3,7 @@
 import pygame
 from pygame.sprite import Sprite
 from random import randint
-from demo.water.splash import Splash
+from splash import Splash
 
 class Water(Sprite):
     """水滴类"""
