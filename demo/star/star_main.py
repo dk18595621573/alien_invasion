@@ -1,7 +1,7 @@
 import sys
 import pygame
 from random import randint
-from star import Star
+from star import Star, CraftStar
 
 class Main:
 
@@ -12,8 +12,9 @@ class Main:
         self.screen_height = 800
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.stars = pygame.sprite.Group()
-        self.number = 20
-        self._create_star()
+        self.number = 30
+        self.stars.add([ CraftStar(self) for _ in range(self.number) ])
+        # self._create_star()
         # 设置标题
         pygame.display.set_caption("星星")
 
@@ -54,7 +55,9 @@ class Main:
         # 重绘屏幕背景色
         self.screen.fill((230, 230, 230))
 
-        self.stars.draw(self.screen)
+        self.stars.update()
+
+        # self.stars.draw(self.screen)
 
         # 刷新屏幕可见(擦去旧屏幕 使新屏幕可见)
         pygame.display.flip()
