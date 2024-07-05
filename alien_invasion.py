@@ -110,6 +110,9 @@ class AlienInvasion:
             if bullet.y < 0:
                 self.bullets.remove(bullet)
 
+        # 检测是否有外星人被子弹击中
+        collisions = pygame.sprite.groupcollide(self.aliens, self.bullets, True, True)
+
     def _create_feet(self):
         """创建外星人"""
 
@@ -161,7 +164,6 @@ class AlienInvasion:
         for alien in self.aliens:
             alien.rect.y += self.settings.fleet_drop_speed
         # 将正设置成负 将负设计成正
-        print(f"========移动方向{self.settings.fleet_direction}")
         self.settings.fleet_direction *= -1
 
     def _update_screen(self):
