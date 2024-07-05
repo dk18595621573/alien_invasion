@@ -34,6 +34,12 @@ class CraftStar(Sprite):
         self.x = random.randint(0, ai_game.screen_width)
         self.y = random.randint(0, ai_game.screen_height)
         self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        self.max_size = 20
+        self.max_wide = 8
+        self.size_speed = 1
+        self.wide_speed = 1
+        self.size = random.randint(5, self.max_size)
+        self.wide = random.randint(1, self.max_wide)
         
 
     def _generate_star_points(self, center_x, center_y, outer_radius, inner_radius):
@@ -50,7 +56,27 @@ class CraftStar(Sprite):
             points.append((inner_x, inner_y))
         return points
     
+    def _check_size(self):
+        """到达最大值或者追小值判断"""
+        return self.size > self.max_size or self.size < 5
+            
+    
+    def _check_wide(self):
+        """到达最大值或者追小值判断"""
+        return self.wide > self.max_wide or self.wide < 0
+    
     def update(self) -> None:
-        
-        star_points = self._generate_star_points(self.x, self.y, 20, 8)
+        """改变星星大小"""
+
+        if self._check_size():
+            self.size_speed *= -1
+
+        if self._check_wide():
+            self.wide_speed *= -1
+
+        self.size += self.size_speed
+        self.wide += self.wide_speed
+        print(f"{self.size}")
+
+        star_points = self._generate_star_points(self.x, self.y, self.size, self.wide)
         pygame.draw.polygon(self.screen, self.color, star_points)

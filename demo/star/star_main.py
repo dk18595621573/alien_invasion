@@ -12,9 +12,11 @@ class Main:
         self.screen_height = 800
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.stars = pygame.sprite.Group()
-        self.number = 30
+        self.number = 50
         self.stars.add([ CraftStar(self) for _ in range(self.number) ])
         # self._create_star()
+        # 创建时钟对象
+        self.clock = pygame.time.Clock()
         # 设置标题
         pygame.display.set_caption("星星")
 
@@ -61,6 +63,9 @@ class Main:
 
         # 刷新屏幕可见(擦去旧屏幕 使新屏幕可见)
         pygame.display.flip()
+
+        # 设定帧率
+        self.clock.tick(50)
 
 if __name__ == '__main__':
     # 创建游戏并且运行
