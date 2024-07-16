@@ -5,6 +5,8 @@ import ship
 import font
 from bullet import Bullet
 from alien import Alien
+from game_stats import GameStats
+from time import sleep
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
@@ -30,6 +32,7 @@ class AlienInvasion:
         pygame.display.set_caption("外星人入侵")
         # 创建时钟对象
         self.clock = pygame.time.Clock()
+        self.stats = GameStats(self)
 
         self.text = ''
 
@@ -39,13 +42,15 @@ class AlienInvasion:
         while True:
             # 鼠标事件和键盘事件
             self._check_events()
-            self.ship.update()
-            # 更新子弹
-            self._update_bullets()
-            # 更新外星人位置
-            self._update_aliens()
-            # 修改屏幕图像
-            self._update_screen()
+
+            if self.stats.game_active:
+                self.ship.update()
+                # 更新子弹
+                self._update_bullets()
+                # 更新外星人位置
+                self._update_aliens()
+                # 修改屏幕图像
+                self._update_screen()
 
     def _check_events(self):
         """监视鼠标事件和键盘事件"""
@@ -109,10 +114,8 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.y < 0:
                 self.bullets.remove(bullet)
-
-        # 检测是否有外星人被子弹击中
-        collisions = pygame.sprite.groupcollide(self.aliens, self.bullets, True, True)
-
+        self._check_bullet_alien_collisions()
+        
     def _create_feet(self):
         """创建外星人"""
 
@@ -149,6 +152,39 @@ class AlienInvasion:
 
         self._check_fleet_edges()
         self.aliens.update()
+        #检查外星人是否和飞船碰撞
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+
+    def _ship_hit(self):
+        """响应外星人和飞船碰撞事件"""
+
+        if self.stats.bullet_left > 0:
+
+            # 飞船数量减少
+            self.stats.bullet_left -= 1
+            # 清空外星人和子弹
+            self.aliens.empty()
+            self.bullets.empty()
+            # 创建一群外星人 并将飞船居中
+            self._create_feet()
+            self.ship.center_ship()
+
+            sleep(1)
+        else:
+            self.stats.game_active = False
+
+    def _check_bullet_alien_collisions(self):
+        """响应子弹和外星人碰撞"""
+
+        # 检测是否有外星人被子弹击中
+        collisions = pygame.sprite.groupcollide(self.aliens, self.bullets, True, True)
+
+        # 判断外星人是否被全部消灭
+        if not self.aliens:
+            # 清空子弹创建外星人
+            self.bullets.empty()
+            self._create_feet()
 
     def _check_fleet_edges(self):
         """检测到碰到墙壁做出处理"""

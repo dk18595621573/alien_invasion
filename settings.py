@@ -11,6 +11,7 @@ class Settings:
         self.bg_color = (230, 230, 230)
         # 飞船移动速度
         self.ship_speed = 3
+        self.ship_limit = 3
         # 创建一个字体对象
         self.font_model = 'Arial'
         self.font_size = 24
@@ -21,7 +22,7 @@ class Settings:
         self.bullet_width = 400
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullet_allowed = 3
+        self.bullet_allowed = 20
 
         # 外星人设置
         self.alien_speed = 1
